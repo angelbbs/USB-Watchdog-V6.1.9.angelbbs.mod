@@ -65,7 +65,7 @@ namespace Synoxo.USBHidDevice
         private long al;
         private string[] am;
         private IContainer an;
-        private System.Windows.Forms.Timer ao;
+        private System.Windows.Forms.Timer _mainTimer;
         private CheckBox ap;
         private TextBox aq;
         private Label ar;
@@ -115,21 +115,29 @@ namespace Synoxo.USBHidDevice
             }
             try
             {
-                if (this.m())
+                /*
+                if (this.CheckUSBWatchdog())
                 {
                     this._s = true;
                     this.ai = (byte)6;
-                    this.a4.AppendText("Find Device\r\n");
+                    this.a4.AppendText("Find Serial Device\r\n");
                     this.b(DateTime.Now.ToString() + ":");
-                    this.b("Find Device\r\n");
+                    this.b("Find Serial Device\r\n");
                     byte[] inputDatas = new byte[16];
+                    //this.a4.AppendText("** 1\r\n");
                     this._e.WriteReportToDevice(0, this._i);
+                    //this.a4.AppendText("** 2\r\n");
                     this._e.ReadReportFromDevice(0, ref inputDatas, 2000);
+                    //this.a4.AppendText("** 3\r\n");
                     if (inputDatas[0] > (byte)128)
+                    {
+                        //this.a4.AppendText("** 4\r\n");
                         this.ai = Convert.ToByte((int)inputDatas[0] - (int)sbyte.MaxValue);
+                    }
                     this._r = true;
                     if (this.ai != (byte)3)
                     {
+                        //this.a4.AppendText("** 5\r\n");
                         this.bi.Visible = false;
                         this.bj.Visible = false;
                         this.bk.Visible = false;
@@ -138,7 +146,8 @@ namespace Synoxo.USBHidDevice
                     this.f();
                     this.ao.Enabled = true;
                 }
-                else if (this.l())
+                */
+                if (this.CheckUSBWatchdog())
                 {
                     this._s = true;
                     this.bi.Visible = false;
@@ -148,13 +157,44 @@ namespace Synoxo.USBHidDevice
                     this.ai = (byte)7;
                     this._r = true;
                     this.f();
-                    this.a4.AppendText("Find Device\r\n");
+                    this.a4.AppendText("Find USB Device\r\n");
                     this.b(DateTime.Now.ToString() + ":");
-                    this.b("Find Device\r\n");
-                    this.ao.Enabled = true;
+                    this.b("Find USB HID Device\r\n");
+                    _mainTimer.Enabled = true;
                 }
                 else
+                {
+                    this._s = true;
+
+                    this.ai = (byte)6;
+                    this.a4.AppendText("Find Serial Device\r\n");
+                    this.b(DateTime.Now.ToString() + ":");
+                    this.b("Find Serial Device\r\n");
+                    byte[] inputDatas = new byte[16];
+                    //this.a4.AppendText("** 1\r\n");
+                    this._e.WriteReportToDevice(0, this._i);
+                    //this.a4.AppendText("** 2\r\n");
+                    this._e.ReadReportFromDevice(0, ref inputDatas, 2000);
+                    //this.a4.AppendText("** 3\r\n");
+                    if (inputDatas[0] > (byte)128)
+                    {
+                        //this.a4.AppendText("** 4\r\n");
+                        this.ai = Convert.ToByte((int)inputDatas[0] - (int)sbyte.MaxValue);
+                    }
+                    this._r = true;
+                    if (this.ai != (byte)3)
+                    {
+                        //this.a4.AppendText("** 5\r\n");
+                        this.bi.Visible = false;
+                        this.bj.Visible = false;
+                        this.bk.Visible = false;
+                        this.bh.Visible = false;
+                    }
+                    this.f();
+                    _mainTimer.Enabled = true;
+                    Thread.Sleep(1000);
                     this.Open_Com();
+                }
             }
             catch (Exception ex)
             {
@@ -194,10 +234,11 @@ namespace Synoxo.USBHidDevice
             int deviceCount = this._e.DeviceCount;
         }
 
-        private bool m()
+        private bool CheckUSBWatchdog()
         {
-            int myVendorID = 20785;
-            int myProductID = 8199;
+            int myVendorID = 0x5131;
+            int myProductID = 0x2007;
+            /*
             try
             {
                 int num1 = 20785;
@@ -209,17 +250,22 @@ namespace Synoxo.USBHidDevice
             {
                 this.a4.AppendText(ex.Message + "\r\n");
             }
+            */
+            a4.AppendText("Found USB WatchDog: " + _e.findHidDevices(ref myVendorID, ref myProductID) + "\r\n");
             return this._e.findHidDevices(ref myVendorID, ref myProductID);
         }
 
-        private bool l()
+        private bool findHidDevices()
         {
-            int myVendorID = 1155;
-            int myProductID = 22352;
+            //int myVendorID = 1155;
+            int myVendorID = 0x5131;
+            //int myProductID = 22352;
+            int myProductID = 0x2007;
+            /*
             try
             {
-                int num1 = 1155;
-                int num2 = 22352;
+                int num1 = 0x5131;
+                int num2 = 0x2007;
                 myVendorID = num1;
                 myProductID = num2;
             }
@@ -227,6 +273,7 @@ namespace Synoxo.USBHidDevice
             {
                 this.a4.AppendText(ex.Message + "\r\n");
             }
+            */
             return this._e.findHidDevices(ref myVendorID, ref myProductID);
         }
 
@@ -369,7 +416,7 @@ namespace Synoxo.USBHidDevice
             }
             catch
             {
-                Form1.Download("http://sy.haicode123.com/USBwatchdog_update/config.inf", Environment.CurrentDirectory);
+                //Form1.Download("http://sy.haicode123.com/USBwatchdog_update/config.inf", Environment.CurrentDirectory);
             }
         }
 
@@ -548,11 +595,15 @@ namespace Synoxo.USBHidDevice
                 }
                 catch
                 {
-                    Form1.Download("http://sy.haicode123.com/USBwatchdog_update/WorkState.inf", Environment.CurrentDirectory);
+                    // Form1.Download("http://sy.haicode123.com/USBwatchdog_update/WorkState.inf", Environment.CurrentDirectory);
                 }
             }
             else
-                Form1.Download("http://sy.haicode123.com/USBwatchdog_update/WorkState.inf", Environment.CurrentDirectory);
+            {
+
+
+                // Form1.Download("http://sy.haicode123.com/USBwatchdog_update/WorkState.inf", Environment.CurrentDirectory);
+            }
         }
 
         private void b(string A_0)
@@ -597,7 +648,7 @@ namespace Synoxo.USBHidDevice
                 if (this.aj.IsOpen)
                 {
                     this.a((byte)128);
-                    this.ao.Enabled = true;
+                    _mainTimer.Enabled = true;
                 }
                 else
                 {
@@ -841,6 +892,7 @@ namespace Synoxo.USBHidDevice
 
         private void g()
         {
+            return;
             try
             {
                 if (this.HttpGet("", "") == null)
@@ -858,6 +910,7 @@ namespace Synoxo.USBHidDevice
 
         private void f()
         {
+            return;
             try
             {
                 if (this.ai == (byte)2)
@@ -896,6 +949,7 @@ namespace Synoxo.USBHidDevice
 
         private void d()
         {
+            return;
             try
             {
                 if (this.HttpGet("", "") == null)
@@ -994,22 +1048,22 @@ namespace Synoxo.USBHidDevice
             }
             this.j();
             this.k();
-            this.a("Check_Software_enV1.2.exe");
+            //this.a("Check_Software_enV1.2.exe");
             if (this.au.Text != "No")
                 _y = Convert.ToByte(this.au.Text);
             else
                 this.a5.Text = "No";
-            this.a4.AppendText("System opening!\n");
+            a4.AppendText("System opening!\n");
             this.b(DateTime.Now.ToString() + ":");
             this.b("System opening!\n");
             this.bd.Text = DateTime.Now.ToString();
             this.g();
             this.d();
             this.ReadWorkState();
-            Form1.Download("", Environment.CurrentDirectory);
+            //Form1.Download("", Environment.CurrentDirectory);
         }
 
-        private void g(object A_0, EventArgs A_1)
+        private void _mainTimerTick(object A_0, EventArgs A_1)
         {
             ++this._t;
             ++this.ag;
@@ -1023,8 +1077,10 @@ namespace Synoxo.USBHidDevice
                 this.b("The watchdog has been broken！\n");
                 this.b("\n");
             }
-            if (!this.aj.IsOpen)
-                this.Open_Com();
+            if (!this.aj.IsOpen && !findHidDevices())
+            {
+               this.Open_Com();
+            }
             if ((int)this._x % 10 == 0)
             {
                 if (this.ap.Checked)
@@ -1106,7 +1162,7 @@ namespace Synoxo.USBHidDevice
                     this._h[0] = this.ac;
                     this._h[1] = (byte)0;
                     this.WriteByteToUSB(this._h);
-                    this.ao.Stop();
+                    _mainTimer.Stop();
                     Form1.Delay(1);
                     this._h[0] = this.ac;
                     this._h[1] = (byte)0;
@@ -1138,7 +1194,7 @@ namespace Synoxo.USBHidDevice
             this.b(DateTime.Now.ToString() + ":");
             this.b("Reset Now\n");
             this.b("\n");
-            this.ao.Enabled = false;
+            _mainTimer.Enabled = false;
             if (this.ai < (byte)4 && !this._r)
             {
                 if (this.aj.IsOpen)
@@ -1148,7 +1204,7 @@ namespace Synoxo.USBHidDevice
                 this.WriteByteToUSB(this._f);
             else if (this.ai == (byte)7)
                 this.WriteByteToUSB(this._g);
-            this.ao.Enabled = true;
+            _mainTimer.Enabled = true;
         }
 
         private void b(object A_0, ScrollEventArgs A_1) => this.ax.Text = (this.ay.Value * 10).ToString();
@@ -1262,7 +1318,7 @@ namespace Synoxo.USBHidDevice
         {
             this.an = (IContainer)new Container();
             ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(Form1));
-            this.ao = new System.Windows.Forms.Timer(this.an);
+            _mainTimer = new System.Windows.Forms.Timer(this.an);
             this.ap = new CheckBox();
             this.aq = new TextBox();
             this.ar = new Label();
@@ -1300,9 +1356,9 @@ namespace Synoxo.USBHidDevice
             this.az.SuspendLayout();
             this.bb.SuspendLayout();
             this.SuspendLayout();
-            this.ao.Enabled = true;
-            this.ao.Interval = 1000;
-            this.ao.Tick += new EventHandler(this.g);
+            _mainTimer.Enabled = true;
+            _mainTimer.Interval = 1000;
+            _mainTimer.Tick += new EventHandler(_mainTimerTick);
             this.ap.AutoSize = true;
             this.ap.Location = new Point(172, 134);
             this.ap.Name = "checkBox1";
@@ -1493,7 +1549,7 @@ namespace Synoxo.USBHidDevice
             this.bg.TabIndex = 37;
             this.bg.Text = "Monitor specified program:";
             this.a0.FlatStyle = FlatStyle.Popup;
-            this.a0.Font = new Font("宋体", 9f);
+            this.a0.Font = new Font("Microsoft Sans Serif", 9f);
             this.a0.ForeColor = Color.Black;
             this.a0.Location = new Point(334, 154);
             this.a0.Name = "button5";
@@ -1503,7 +1559,7 @@ namespace Synoxo.USBHidDevice
             this.a0.UseVisualStyleBackColor = true;
             this.a0.Click += new EventHandler(this.c);
             this.a1.FlatStyle = FlatStyle.Popup;
-            this.a1.Font = new Font("宋体", 9f);
+            this.a1.Font = new Font("Microsoft Sans Serif", 9f);
             this.a1.ForeColor = Color.Black;
             this.a1.Location = new Point(219, 131);
             this.a1.Name = "button4";
@@ -1513,7 +1569,7 @@ namespace Synoxo.USBHidDevice
             this.a1.UseVisualStyleBackColor = true;
             this.a1.Click += new EventHandler(this.d);
             this.a2.FlatStyle = FlatStyle.Popup;
-            this.a2.Font = new Font("宋体", 9f);
+            this.a2.Font = new Font("Microsoft Sans Serif", 9f);
             this.a2.ForeColor = Color.Black;
             this.a2.Location = new Point(376, 69);
             this.a2.Name = "button1";
@@ -1523,7 +1579,7 @@ namespace Synoxo.USBHidDevice
             this.a2.UseVisualStyleBackColor = true;
             this.a2.Click += new EventHandler(this.e);
             this.a3.FlatStyle = FlatStyle.Popup;
-            this.a3.Font = new Font("宋体", 9f);
+            this.a3.Font = new Font("Microsoft Sans Serif", 9f);
             this.a3.ForeColor = Color.Black;
             this.a3.Location = new Point(374, 8);
             this.a3.Name = "buttonSend";
