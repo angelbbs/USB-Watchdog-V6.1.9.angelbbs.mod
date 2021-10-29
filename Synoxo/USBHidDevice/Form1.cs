@@ -26,11 +26,7 @@ namespace Synoxo.USBHidDevice
         private const byte _c = 128;
         private const byte _d = 144;
         private DeviceManagement _e = new DeviceManagement();
-        private byte[] _f = new byte[2]
-        {
-      byte.MaxValue,
-      (byte) 85
-        };
+        private byte[] _f = new byte[2] {byte.MaxValue, (byte) 85};
         private byte[] _g = new byte[2] { (byte)85, (byte)85 };
         private byte[] _h = new byte[2] { (byte)24, (byte)0 };
         private byte[] _i = new byte[2] { (byte)128, (byte)0 };
@@ -157,7 +153,6 @@ namespace Synoxo.USBHidDevice
                     this.ai = (byte)7;
                     this._r = true;
                     this.f();
-                    this.a4.AppendText("Find USB Device\r\n");
                     this.b(DateTime.Now.ToString() + ":");
                     this.b("Find USB HID Device\r\n");
                     _mainTimer.Enabled = true;
@@ -425,52 +420,52 @@ namespace Synoxo.USBHidDevice
             string path = Environment.CurrentDirectory + "\\config.inf";
             string[] contents = new string[11]
             {
-        "timeout=80;//超时复位时间，只能为10的整数，范围10-1270秒",
-        "TimedRestartDays=3;//定时自动重启天数",
-        "CheckOnline=;//1监控联网，没有不监控",
-        "AppName=右键>属性>快捷方式>目标-把名称复制到这里;//被监控的程序名称",
-        "VideoCardMonitor=0;//是否监控掉显卡，0不监控，1监控",
-        "TimingBoot=;//定时开机时间范围0-23",
-        "TimingShut=;//定时关机时间范围0-23",
-        "HttpName=http://www.google.com;//被监控的链接域名，如http://www.google.com",
-        "CheckProgram=;//1监控程序，没有不监控",
-        "CheckUpdate=1;//1自动升级，没有不自动升级",
-        "请不要手动修改数据！"
+        "timeout=80;//The timeout reset time can only be an integer of 10, with a range of 10-1270 seconds",
+        "TimedRestartDays=7;//Timed automatic restart days",
+        "CheckOnline=;//1 Monitor the network, there is no non-monitoring",
+        "AppName=Patch to the monitored program;//Name of the monitored program",
+        "VideoCardMonitor=0;//Whether to monitor the graphics card, 0 does not monitor, 1 monitors",
+        "TimingBoot=;//Timed boot time range 0-23",
+        "TimingShut=;//Timed boot time range 0-23",
+        "HttpName=http://www.google.com;//The domain name of the monitored link, such as http://www.google.com",
+        "CheckProgram=;//1 Monitoring program, there is no non-monitoring",
+        "CheckUpdate=1;//1 Automatic upgrade, no automatic upgrade",
+        "Please do not modify the data manually!"
             };
-            string str1 = contents[0].Substring(0, 8) + this.ax.Text + contents[0].Substring(10, 29);
+            string str1 = contents[0].Substring(0, 8) + this.ax.Text + contents[0].Substring(10, contents[0].Length - contents[0].IndexOf("//") + 1);
             contents[0] = str1;
-            string str2 = contents[1].Substring(0, 17) + this.au.Text + contents[1].Substring(18, 11);
+            string str2 = contents[1].Substring(0, 17) + this.au.Text + contents[1].Substring(18, contents[1].Length - contents[1].IndexOf("//") + 1);
             contents[1] = str2;
             string str3 = contents[2].Substring(0, 12);
-            string str4 = !(this.a2.Text == "Open") ? str3 + (object)'1' + contents[2].Substring(12, 14) : str3 + contents[2].Substring(12, 14);
+            string str4 = !(this.a2.Text == "Open") ? str3 + (object)'1' + contents[2].Substring(12, contents[2].Length - contents[2].IndexOf("//") + 1) : str3 + contents[2].Substring(12, contents[2].Length - contents[2].IndexOf("//") + 1);
             contents[2] = str4;
             string str5 = contents[3].Substring(0, 8);
             byte num1 = 0;
             while (num1 < (byte)30 && contents[3][8 + (int)num1] != ';')
                 ++num1;
-            string str6 = str5 + this.bf.Text + contents[3].Substring(8 + (int)num1, 11);
+            string str6 = str5 + this.bf.Text + contents[3].Substring(8 + (int)num1, contents[3].Length - contents[3].IndexOf("//") + 1);
             contents[3] = str6;
             string str7 = contents[4].Substring(0, 17);
-            string str8 = !this.ap.Checked ? str7 + (object)'0' + contents[4].Substring(18, 19) : str7 + (object)'1' + contents[4].Substring(18, 19);
+            string str8 = !this.ap.Checked ? str7 + (object)'0' + contents[4].Substring(18, contents[4].Length - contents[4].IndexOf("//") + 1) : str7 + (object)'1' + contents[4].Substring(18, contents[4].Length - contents[4].IndexOf("//") + 1);
             contents[4] = str8;
             string str9 = contents[5].Substring(0, 11);
-            string str10 = this.bh.Text != null ? str9 + this.bh.Text + contents[5].Substring(11, 15) : str9 + contents[5].Substring(11, 15);
+            string str10 = this.bh.Text != null ? str9 + this.bh.Text + contents[5].Substring(11, contents[5].Length - contents[5].IndexOf("//") + 1) : str9 + contents[5].Substring(11, contents[5].Length - contents[5].IndexOf("//") + 1);
             contents[5] = str10;
             string str11 = contents[6].Substring(0, 11);
-            string str12 = this.bk.Text != null ? str11 + this.bk.Text + contents[6].Substring(11, 15) : str11 + contents[6].Substring(11, 15);
+            string str12 = this.bk.Text != null ? str11 + this.bk.Text + contents[6].Substring(11, contents[6].Length - contents[6].IndexOf("//") + 1) : str11 + contents[6].Substring(11, contents[6].Length - contents[6].IndexOf("//") + 1);
             contents[6] = str12;
             byte num2 = 0;
             while (num2 < (byte)30 && contents[7][9 + (int)num2] != ';')
                 ++num2;
-            string str13 = contents[7].Substring(0, 9) + this.aq.Text + contents[7].Substring(9 + (int)num2, 34);
+            string str13 = contents[7].Substring(0, 9) + this.aq.Text + contents[7].Substring(9 + (int)num2, contents[7].Length - contents[7].IndexOf(";") + 0);
             contents[7] = str13;
             string str14 = contents[8].Substring(0, 13);
-            string str15 = !(this.be.Text == "Open") ? str14 + (object)'1' + contents[8].Substring(13, 14) : str14 + contents[8].Substring(13, 14);
+            string str15 = !(this.be.Text == "Open") ? str14 + (object)'1' + contents[8].Substring(13, contents[8].Length - contents[8].IndexOf("//") + 1) : str14 + contents[8].Substring(13, contents[8].Length - contents[8].IndexOf("//") + 1);
             contents[8] = str15;
             string str16 = contents[9].Substring(0, 12);
-            string str17 = this.bl.Checked ? str16 + (object)'1' + contents[9].Substring(13, 16) : str16 + (object)'0' + contents[9].Substring(13, 16);
+            string str17 = this.bl.Checked ? str16 + (object)'1' + contents[9].Substring(13, contents[9].Length - contents[9].IndexOf("//") + 1) : str16 + (object)'0' + contents[9].Substring(13, contents[9].Length - contents[9].IndexOf("//") + 1);
             contents[9] = str17;
-            System.IO.File.WriteAllLines(path, contents, Encoding.UTF8);
+            System.IO.File.WriteAllLines(path, contents, Encoding.ASCII);
         }
 
         private string k()
@@ -967,14 +962,19 @@ namespace Synoxo.USBHidDevice
             {
                 foreach (ManagementBaseObject managementBaseObject in new ManagementObjectSearcher("Select * from Win32_VideoController").Get())
                 {
-                    if (managementBaseObject.Properties["Status"].Value.ToString() != "OK" && this._n)
+                    this.a4.AppendText(managementBaseObject.Properties["Name"].Value.ToString() + ": " +
+                    managementBaseObject.Properties["Status"].Value.ToString() + "\r\n");
+                    if (!managementBaseObject.Properties["Name"].Value.ToString().Contains("Radmin"))
                     {
-                        this.a4.AppendText("The graphics card is abnormal, restarted after 60 seconds\n");
-                        this.b(DateTime.Now.ToString() + ":");
-                        this.b("The graphics card is abnormal, restarted after 60 seconds\n");
-                        this.b("\n");
-                        this._n = false;
-                        this._t = (byte)0;
+                        if (managementBaseObject.Properties["Status"].Value.ToString() != "OK" && this._n)
+                        {
+                            this.a4.AppendText("The graphics card is abnormal, restarted after 60 seconds\r\n");
+                            this.b(DateTime.Now.ToString() + ":");
+                            this.b("The graphics card is abnormal, restarted after 60 seconds\r\n");
+                            this.b("\r\n");
+                            this._n = false;
+                            this._t = (byte)0;
+                        }
                     }
                     if (this._l && this._m && this._n)
                         this._t = (byte)0;
@@ -996,9 +996,9 @@ namespace Synoxo.USBHidDevice
             {
                 this._t = (byte)0;
                 this._m = false;
-                this.a4.AppendText("The program is not running, restarted after 60 seconds\n");
+                this.a4.AppendText("The program is not running, restarted after 60 seconds\r\n");
                 this.b(DateTime.Now.ToString() + ":");
-                this.b("The program is not running, restarted after 60 seconds\n");
+                this.b("The program is not running, restarted after 60 seconds\r\n");
                 this.b("\n");
             }
             if (!_l || !_m || !_n)
@@ -1053,9 +1053,9 @@ namespace Synoxo.USBHidDevice
                 _y = Convert.ToByte(this.au.Text);
             else
                 this.a5.Text = "No";
-            a4.AppendText("System opening!\n");
-            this.b(DateTime.Now.ToString() + ":");
-            this.b("System opening!\n");
+            //a4.AppendText("System opening!\n");
+            //this.b(DateTime.Now.ToString() + ":");
+            //this.b("System opening!\n");
             this.bd.Text = DateTime.Now.ToString();
             this.g();
             this.d();
@@ -1081,7 +1081,7 @@ namespace Synoxo.USBHidDevice
             {
                this.Open_Com();
             }
-            if ((int)this._x % 10 == 0)
+            if ((int)this._x % 30 == 0)
             {
                 if (this.ap.Checked)
                     this.c();
@@ -1145,11 +1145,11 @@ namespace Synoxo.USBHidDevice
                 else
                     --this.ab;
             }
-            this.a6.Text = ((int)this._u * 24 + (int)this._v).ToString() + "H" + this._w.ToString() + "M" + this._x.ToString() + "S";
+            this.a6.Text = ((int)this._u * 24 + (int)this._v).ToString() + "H " + this._w.ToString() + "M " + this._x.ToString() + "S";
             if (this.av.Value == 0)
                 this.a5.Text = "No";
             else
-                this.a5.Text = this.au.Text + "days,Remaining Time:" + ((int)this._y * 24 + (int)this._z).ToString() + "H" + this.aa.ToString() + "M" + this.ab.ToString() + "S";
+                this.a5.Text = this.au.Text + "days, Remaining Time: " + ((int)this._y * 24 + (int)this._z).ToString() + "H " + this.aa.ToString() + "M " + this.ab.ToString() + "S";
             if (this.bh.Text != "" && this.bk.Text == DateTime.Now.Hour.ToString())
             {
                 this.ac = (int)Convert.ToByte(this.bh.Text) <= (int)Convert.ToByte(this.bk.Text) ? Convert.ToByte(168 + (int)Convert.ToByte(this.bh.Text) - (int)Convert.ToByte(this.bk.Text)) : Convert.ToByte(144 + (int)Convert.ToByte(this.bh.Text) - (int)Convert.ToByte(this.bk.Text));
@@ -1190,9 +1190,9 @@ namespace Synoxo.USBHidDevice
 
         private void f(object A_0, EventArgs A_1)
         {
-            this.a4.AppendText("Reset Now\n");
+            this.a4.AppendText("Reset Now\r\n");
             this.b(DateTime.Now.ToString() + ":");
-            this.b("Reset Now\n");
+            this.b("Reset Now\r\n");
             this.b("\n");
             _mainTimer.Enabled = false;
             if (this.ai < (byte)4 && !this._r)
@@ -1201,9 +1201,9 @@ namespace Synoxo.USBHidDevice
                     this.a(byte.MaxValue);
             }
             else if (this.ai < (byte)7)
-                this.WriteByteToUSB(this._f);
-            else if (this.ai == (byte)7)
                 this.WriteByteToUSB(this._g);
+            else if (this.ai == (byte)7)
+                this.WriteByteToUSB(this._f);
             _mainTimer.Enabled = true;
         }
 
@@ -1215,18 +1215,18 @@ namespace Synoxo.USBHidDevice
             {
                 this.a2.Text = "Close";
                 this._j = true;
-                this.a4.AppendText("Detection networking\n");
+                this.a4.AppendText("Detection networking enabled \r\n");
                 this.b(DateTime.Now.ToString() + ":");
-                this.b("Detection networking\n");
+                this.b("Detection networking enabled \r\n");
                 this.b("\n");
             }
             else
             {
                 this.a2.Text = "Open";
                 this._j = false;
-                this.a4.AppendText("NO Detection networking\n");
+                this.a4.AppendText("NO Detection networking\r\n");
                 this.b(DateTime.Now.ToString() + ":");
-                this.b("NO Detection networking\n");
+                this.b("NO Detection networking\r\n");
                 this.b("\n");
             }
         }
@@ -1254,7 +1254,7 @@ namespace Synoxo.USBHidDevice
                 foreach (ManagementObject managementObject in new ManagementObjectSearcher("Select * from Win32_VideoController").Get())
                 {
                     ++num1;
-                    this.a4.AppendText(num1.ToString() + (object)'.' + managementObject.Properties["NAME"].Value + (object)'\n');
+                    this.a4.AppendText(num1.ToString() + (object)'.' + managementObject.Properties["NAME"].Value + (object)"\r\n");
                 }
             }
             catch
@@ -1293,9 +1293,9 @@ namespace Synoxo.USBHidDevice
         {
             if (this.ap.Checked)
             {
-                this.a4.AppendText("Detection card\n");
+                this.a4.AppendText("Detection card enabled\r\n");
                 this.b(DateTime.Now.ToString() + ":");
-                this.b("Detection card\n");
+                this.b("Detection card enabled\r\n");
                 this.b("\n");
             }
             else
@@ -1370,7 +1370,7 @@ namespace Synoxo.USBHidDevice
             this.aq.Name = "textBox3";
             this.aq.Size = new Size(200, 21);
             this.aq.TabIndex = 19;
-            this.aq.Text = "www.hao123.com";
+            this.aq.Text = "www.google.com";
             this.ar.AutoSize = true;
             this.ar.Location = new Point(8, 134);
             this.ar.Name = "label8";
@@ -1393,7 +1393,7 @@ namespace Synoxo.USBHidDevice
             this.au.Name = "textBox2";
             this.au.Size = new Size(35, 21);
             this.au.TabIndex = 14;
-            this.au.Text = "3";
+            this.au.Text = "7";
             this.av.Cursor = Cursors.Arrow;
             this.av.LargeChange = 1;
             this.av.Location = new Point(219, 44);
@@ -1597,35 +1597,39 @@ namespace Synoxo.USBHidDevice
             this.a4.Size = new Size(436, 134);
             this.a4.TabIndex = 31;
             this.a5.AutoSize = true;
-            this.a5.Location = new Point(237, 278);
+            this.a5.Location = new Point(124, 278);
             this.a5.Name = "label16";
             this.a5.Size = new Size(207, 15);
             this.a5.TabIndex = 38;
-            this.a5.Text = "3days,Remaining Time:72 H 0 M 0 S";
+            this.a5.Text = "3days, Remaining Time:72 H 0 M 0 S";
             this.a6.AutoSize = true;
             this.a6.Location = new Point(371, 253);
             this.a6.Name = "label15";
             this.a6.Size = new Size(54, 15);
             this.a6.TabIndex = 37;
             this.a6.Text = "0H0M0S";
+            /*
             this.a7.AutoSize = true;
             this.a7.Location = new Point(71, 278);
             this.a7.Name = "label13";
             this.a7.Size = new Size(30, 15);
             this.a7.TabIndex = 36;
             this.a7.Text = "YES";
+            */
             this.a8.AutoSize = true;
-            this.a8.Location = new Point(128, 278);
+            this.a8.Location = new Point(12, 278);
             this.a8.Name = "label12";
-            this.a8.Size = new Size(112, 15);
+            this.a8.Size = new Size(115, 15);
             this.a8.TabIndex = 35;
             this.a8.Text = "Scheduled Restart:";
+            /*
             this.a9.AutoSize = true;
             this.a9.Location = new Point(12, 278);
             this.a9.Name = "label10";
             this.a9.Size = new Size(60, 15);
             this.a9.TabIndex = 34;
             this.a9.Text = "Auto Run:";
+            */
             this.ba.AutoSize = true;
             this.ba.Location = new Point(12, 253);
             this.ba.Name = "label9";
@@ -1652,12 +1656,15 @@ namespace Synoxo.USBHidDevice
             this.bd.Size = new Size(106, 15);
             this.bd.TabIndex = 43;
             this.bd.Text = "17/01/01 00:00:00";
+            /*
             this.bm.AutoSize = true;
             this.bm.Location = new Point(8, 154);
             this.bm.Name = "label14";
             this.bm.Size = new Size(113, 15);
             this.bm.TabIndex = 44;
             this.bm.Text = "Automatic upgrade:";
+            */
+                        
             this.bl.AutoSize = true;
             this.bl.Checked = true;
             this.bl.CheckState = CheckState.Checked;
@@ -1666,6 +1673,8 @@ namespace Synoxo.USBHidDevice
             this.bl.Size = new Size(15, 14);
             this.bl.TabIndex = 48;
             this.bl.UseVisualStyleBackColor = true;
+            this.bl.Hide();
+
             this.AutoScaleDimensions = new SizeF(7f, 15f);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(466, 468);
@@ -1684,7 +1693,7 @@ namespace Synoxo.USBHidDevice
             this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
             this.Margin = new Padding(3, 4, 3, 4);
             this.Name = nameof(Form1);
-            this.Text = "USB Watchdog V6.1.9";
+            this.Text = "USB Watchdog V6.1.9 (angelbbs mod)";
             this.Load += new EventHandler(this.h);
             this.az.ResumeLayout(false);
             this.az.PerformLayout();
